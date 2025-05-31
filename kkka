@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Location Share</title>
+</head>
+<body>
+  <h1>Apni Location Share Karein</h1>
+  <button id="getLocationBtn">Location Dikhayein</button>
+  <p id="message"></p>
+
+  <script>
+    const btn = document.getElementById('getLocationBtn');
+    const message = document.getElementById('message');
+
+    btn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        message.textContent = 'Aapke browser mein Geolocation supported nahi hai.';
+        return;
+      }
+
+      message.textContent = 'Location lene ki koshish kar rahe hain...';
+
+      navigator.geolocation.getCurrentPosition(success, error);
+
+      function success(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        const mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
+
+        message.innerHTML = `Aapki location mil gayi: <br>
+          Latitude: ${lat} <br>
+          Longitude: ${lon} <br>
+          <a href="${mapLink}" target="_blank">Google Map me dekhein</a>`;
+      }
+
+      function error() {
+        message.textContent = 'Location lene mein error aaya. Kripya location permission allow karein.';
+      }
+    });
+  </script>
+</body>
+</html>
